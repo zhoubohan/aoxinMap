@@ -1,9 +1,12 @@
-
-// Fonts
-@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
-
-// Variables
-@import "variables";
-
 // Bootstrap
-@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+
+footer{
+  margin-top: 40px;
+  padding-top: 5px;
+  border-top: 1px solid #e8e8e8;
+  color: #777777;
+}
+
+

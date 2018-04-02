@@ -11,6 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+//注册
+Route::get('signup', 'UsersController@create')->name('signup');
+Route::resource('users', 'UsersController');
+
+//firstScreen
+Route::get('lists', 'ListsController@show')->name('lists.show');
