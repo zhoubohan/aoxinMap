@@ -6,7 +6,7 @@
  */
 
 require('./bootstrap.js');
-
+require('./jquery-3.3.1.min');
 // window.Vue = require('vue');
 //
 // /**
@@ -20,3 +20,4 @@ require('./bootstrap.js');
 // const app = new Vue({
 //     el: '#app'
 // });
+

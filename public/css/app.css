@@ -8353,6 +8353,7 @@ button.close {
 body {
   display: block;
   overflow-x: hidden;
+  overflow-y: hidden;
   width: 100%;
   height: 100%;
 }
@@ -8362,11 +8363,8 @@ html {
   height: 100%;
 }
 
-footer {
-  margin-top: 40px;
-  padding-top: 5px;
-  border-top: 1px solid #e8e8e8;
-  color: #777777;
+.header {
+  margin: 1rem;
 }
 
 .login {
@@ -8388,5 +8386,46 @@ footer {
 
 a {
   cursor: pointer;
+}
+
+.row {
+  height: 17.5%;
+  padding: 0.1rem 0;
+}
+
+.view-block {
+  height: 100%;
+  width: 49%;
+  background-color: #e8e8e8;
+  margin-left: 0.1rem;
+}
+
+#search-school-btn {
+  text-align: center;
+  border: 1px solid #8c8c8c;
+  border-radius: 7px;
+  float: right;
+  height: 20px;
+}
+
+.footer {
+  position: absolute;
+  position: fixed;
+  z-index: 1000;
+  bottom: 5px;
+  left: 2%;
+  width: 96%;
+}
+
+.checkboxs-lists {
+  display: none;
+  width: 80%;
+  height: 80%;
+  z-index: 100000;
+  background-color: #2ab27b;
+}
+
+.checkbox-item {
+  text-align: center;
 }
 
