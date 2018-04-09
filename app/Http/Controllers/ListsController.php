@@ -17,6 +17,7 @@ class ListsController extends Controller
         'open_grade' => '开设年级',
         'need_AEAS' => '是否需要AEAS',
         'need_face' => '是否需要面试',
+        'pm_code' => '邮编'
     );
 
     public function show()
@@ -32,16 +33,17 @@ class ListsController extends Controller
         if ($cateName == 'need_AEAS' || $cateName == 'need_face') {
             $data[]['cate'] = '需要';
             $data[]['cate'] = '不需要';
-        }else {
-
-        $items = DB::table('schools')
-            ->select($cateName)
-            ->where($cateName, '<>', null)
-            ->groupBy($cateName)
-            ->get();
-        foreach ($items as $value) {
-            $data[]['cate'] = $value->$cateName;
-        }
+        }elseif ($cateName == 'pm_code') {
+            $data[]['cate'] = '邮编';
+        }else{
+            $items = DB::table('schools')
+                ->select($cateName)
+                ->where($cateName, '<>', null)
+                ->groupBy($cateName)
+                ->get();
+            foreach ($items as $value) {
+                $data[]['cate'] = $value->$cateName;
+            }
 
         }
 

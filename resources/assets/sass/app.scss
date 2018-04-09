@@ -35,7 +35,7 @@ a{
   cursor: pointer;
 }
 .row{
-  height: 17.5%;
+  height: 18%;
   padding: 0.1rem 0;
 }
 
@@ -73,6 +73,46 @@ a{
 
 .checkbox-item{
   text-align: center;
+}
+
+#pm_code_input{
+  width: 100%;
+  height: 43px;
+}
+
+.selected_box{
+  width: 100%;
+  height: 70%;
+  //background-color: #fdf7eb;
+  text-align: center;
+  display: none;
+  .selected_str{
+    padding-left: 5%;
+    width: 90%;
+    padding-top: 15%;
+    font-size: 16px;
+    word-wrap: break-word;
+    color: #ecb03c;
+  }
+}
+
+.title_label{
+  width: 100%;
+  text-align: center;
+  background-color: #57d897;
+  font-size: 18px;
+}
+
+.whole_list{
+  height: 100%;
+  width: 100%;
+}
+
+.img_box{
+  width: 39%;
+  margin-left: 31%;
+  margin-top: 8%;
+  //display: none;
 }
 
 
