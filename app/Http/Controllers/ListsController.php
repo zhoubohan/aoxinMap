@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Requests;
-use App\Models\School;
 use DB;
+use Illuminate\Http\Request;
 
 class ListsController extends Controller
 {
@@ -15,6 +13,10 @@ class ListsController extends Controller
         'school_coop' => '合作情况',
         'Broading' => 'Broading',
         'IB_course' => 'IB课程',
+        'school_gov' => '公私立',
+        'open_grade' => '开设年级',
+        'need_AEAS' => '是否需要AEAS',
+        'need_face' => '是否需要面试',
     );
 
     public function show()
@@ -24,19 +26,28 @@ class ListsController extends Controller
 
     public function modalItem(Request $request)
     {
+
         $data[]['cate'] = '不限';
         $cateName = $request->cateName;
+        if ($cateName == 'need_AEAS' || $cateName == 'need_face') {
+            $data[]['cate'] = '需要';
+            $data[]['cate'] = '不需要';
+        }else {
+
         $items = DB::table('schools')
-                ->select($cateName)
-                ->where($cateName, '<>', null)
-                ->groupBy($cateName)
-                ->get();
+            ->select($cateName)
+            ->where($cateName, '<>', null)
+            ->groupBy($cateName)
+            ->get();
         foreach ($items as $value) {
             $data[]['cate'] = $value->$cateName;
         }
+
+        }
+
         return response()->json([
             'title' => self::$titleConf[$cateName],
-            'data' => $data
+            'data' => $data,
         ]);
     }
 }
