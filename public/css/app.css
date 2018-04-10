@@ -8353,7 +8353,6 @@ button.close {
 body {
   display: block;
   overflow-x: hidden;
-  overflow-y: hidden;
   width: 100%;
   height: 100%;
 }
@@ -8475,5 +8474,18 @@ form {
 
 .school-results-note {
   margin-left: 19%;
+}
+
+.school-lists-table {
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.school-lists {
+  overflow: scroll;
+}
+
+#query {
+  display: none;
 }
 
