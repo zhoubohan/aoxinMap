@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class ListsController extends Controller
 {
@@ -23,6 +24,61 @@ class ListsController extends Controller
     public function show()
     {
         return view('lists.show');
+    }
+
+    /**
+     * @param Request $request
+     * @return $this
+     */
+    public function search(Request $request)
+    {
+        $request = $request->all();
+        unset($request['_token']);
+        $keys = array_keys($request);
+        if (!in_array('page', $keys)) {
+            $page = 0;
+        }
+        $searchData = array();
+        $type = 'text/html';
+        $throwData = array();
+        foreach ($request as $key => $value) {
+            if (!is_null($value)) {
+                $searchData[$key] = rtrim($value, ',');
+            }
+        }
+        //多条件搜索
+        $handle = DB::table('schools');
+        $handle->select('school_name','schoolId','ICSEA');
+        foreach ($searchData as $k => $v) {
+            if (strpos($v, ',')) {
+                $v = explode(',',$v);
+            }else {
+                $v = array($v);
+            }
+            $searchData[$k] && $handle -> whereIn($k,  $v);
+        }
+        $count = count($handle->get()->toArray());
+        if ($page == 0) {
+            $handle->offset(0)->limit(10);
+        } else {
+            $offset = ($page - 1)*5 + 10;
+            $handle->offset($offset)->limit(5);
+        }
+        $returnData = $handle->orderBy('ICSEA', 'desc')->get();
+        $throwData = [
+            'count' => $count,
+            'schools' => $returnData
+        ];
+//        return redirect()->route('lists.results', ['data' => $returnData]);
+        return response()->view('lists.results', $throwData, 200)->header('Content-type', $type);
+
+
+    }
+
+    public function results(Request $request)
+    {
+        print_r($request->data);
+        return view('lists.list');
     }
 
     public function modalItem(Request $request)

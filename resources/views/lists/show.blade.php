@@ -9,6 +9,8 @@
         </span>
     </div>
     <div class="container whole_list">
+        <form action="{{ route('lists.search') }}" method="post">
+            {{ csrf_field() }}
         <div class="row">
             <div class="col-xs-6 col-sm-4 view-block checkboxs-modal" id="area" data-toggle="modal" data-target=".bs-example-modal-sm" data-whatever="state">
                 <label class="title_label">所属州名</label>
@@ -110,8 +112,9 @@
             </div>
         </div>
         <div class="footer">
-            <button type="button" class="btn btn-success btn-block confirm-btn">确定</button>
+            <button type="submit" class="btn btn-success btn-block confirm-btn" id="confirm_btn">确定</button>
         </div>
+        </form>
     </div>
 
     <!-- Modal列表框，单选多选 -->
@@ -123,7 +126,7 @@
                     <h4 class="modal-title"></h4>
                 </div>
                 <div class="modal-body">
-                    <ul class="list-group">
+                    <ul class="list-group" data-toggle="buttons">
 
                     </ul>
                 </div>
@@ -135,6 +138,24 @@
         </div>
     </div>
     <script>
+        //搜索页面接口地址
+        {{--var searchAPI = "{{ route('lists.search') }}";--}}
+        {{--$('#confirm_btn').on('click', function () {--}}
+            {{--var _json = {};--}}
+            {{--$.each($(".checkboxs-modal"), function () {--}}
+                {{--var _key = $(this).data('whatever');--}}
+                {{--var _val = $(this).find('.selected_str').text();--}}
+                {{--_json[_key] = _val;--}}
+            {{--});--}}
+            {{--$.ajax({--}}
+                {{--url: searchAPI,--}}
+                {{--data: _json,--}}
+                {{--type: 'get',--}}
+                {{--success: function (res) {--}}
+                    {{--console.log(res);--}}
+                {{--}--}}
+            {{--});--}}
+        {{--});--}}
         //模态框接口地址
         var modalAPI = "{{ route('lists.modalItem') }}";
         $('#modalList').on('show.bs.modal',function (e) {
@@ -154,7 +175,7 @@
                     }
 
                     $.each(json.data, function (i, item) {
-                        _item = "<li class='list-group-item checkbox-item'><input type='" + _boxtype + "' value='" + item.cate + "' name='"+_cateName+"'>" + item.cate + "</li>";
+                        _item = "<li class='list-group-item checkbox-item btn btn-default'><input type='" + _boxtype + "' value='" + item.cate + "' name='"+_cateName+"' autocomplete='off'>" + item.cate + "</li>";
                         _listItem.append(_item);
                     });
                 } else {
@@ -173,16 +194,24 @@
             var _strHtml = '';
             var _imgDiv = $("."+_cateType+"_img");
             $('.save-btn').on('click', function (e) {
-                $("input[name='"+_cateType+"']:checked").each(function () {
-                    _selectedStr+= $(this).val() + ',';
-                });
-                _selectedStr = _selectedStr.substring(0, _selectedStr.length-1);
+                if (_cateType !== 'pm_code') {
+                    $("input[name='"+_cateType+"']:checked").each(function () {
+                        _selectedStr+= $(this).val() + ',';
+                    });
+                    // _selectedStr = _selectedStr.substring(0, _selectedStr.length-1);
+                }else {
+                    _selectedStr = $('#'+_cateType+'_input').val();
+                }
                 _modal.modal('hide');
-                _selectedArea.show();
-                _imgDiv.hide();
-                _div.find('.title_label').css('background-color','#ecb03c');
-                _strHtml = "<p class='selected_str'>"+_selectedStr+"</p>";
-                _selectedArea.html(_strHtml);
+                if (_selectedStr.length > 0) {
+                    _selectedArea.show();
+                    _imgDiv.hide();
+                    _div.find('.title_label').css('background-color','#ecb03c');
+                    _strHtml = "<p class='selected_str'>"+_selectedStr+"<input type='hidden' name='"+_cateType+"' value='"+_selectedStr+"'></p>";
+                    _selectedArea.html(_strHtml);
+                }
+
+
             });
         })
     </script>

@@ -24,3 +24,5 @@ Route::delete('logout', 'SessionsController@destroy')->name('logout');
 //firstScreen
 Route::get('lists', 'ListsController@show')->name('lists.show');
 Route::get('modalItem', 'ListsController@modalItem')->name('lists.modalItem');
+Route::post('lists/search','ListsController@search')->name('lists.search');
+Route::get('lists/results', 'ListsController@results')->name('lists.results');
