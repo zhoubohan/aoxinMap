@@ -132,8 +132,25 @@ form{
   overflow: scroll;
 }
 
-#query{
+#key{
   display: none;
+}
+
+#sort-btn{
+  float: right;
+  margin-top: -8px;
+}
+
+#toTop{
+  position: fixed;
+  background: url('/images/u550.png') no-repeat left center;
+  display: block;
+  width: 0.8rem;
+  height: 0.8rem;
+  background-size: 0.8rem auto;
+  bottom: 0.7rem;
+  right: 0.1rem;
+  font-size:0;
 }
 
 

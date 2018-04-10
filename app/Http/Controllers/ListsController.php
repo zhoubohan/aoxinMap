@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
 
 class ListsController extends Controller
@@ -34,9 +35,9 @@ class ListsController extends Controller
     {
         $throwData = array();
         $request = $request->all();
-        if (isset($request['query'])) {
-            $query = $request['query'];
-            $throwData = DB::select($query)->get();
+        if (isset($request['key'])) {
+            $key = $request['key'];
+            $throwData = Cache::get($key);
             return response()->json([
                 'data' => $throwData
             ]);
@@ -64,8 +65,14 @@ class ListsController extends Controller
                 }
                 $searchData[$k] && $handle -> whereIn($k,  $v);
             }
+
+            //将查询出的全部数据写入缓存
+            $allData = $handle->orderBy('ICSEA', 'desc')->get()->toArray();
+            $key = str_random(6);
+            Cache::forever($key, $allData);
+
+
             $count = count($handle->get()->toArray());
-            $query = $handle->toSql();
             if ($page == 0) {
                 $handle->offset(0)->limit(15);
             } else {
@@ -76,7 +83,7 @@ class ListsController extends Controller
             $throwData = [
                 'count' => $count,
                 'schools' => $returnData,
-                'query' => $query
+                'key' => $key
             ];
     //        return redirect()->route('lists.results', ['data' => $returnData]);
             return response()->view('lists.results', $throwData, 200)->header('Content-type', $type);
